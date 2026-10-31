@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5f5f7">
+<meta name="description" content="Encuesta sobre adolescentes e inteligencia artificial.">
+<title>Adolescentes e inteligencia artificial: ¿cómo la usamos?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap">
+<style>
+:root{--blue:#0071e3;--blue2:#2997ff;--ink:#1d1d1f;--ink2:#424245;--mute:#6e6e73;--ease:cubic-bezier(.32,.72,0,1);--font:Montserrat,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:var(--font);color:var(--ink);background:#f5f5f7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button,textarea{font:inherit}
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.bg span{position:absolute;width:55vmax;height:55vmax;border-radius:50%;filter:blur(90px);opacity:.38;animation:drift 26s ease-in-out infinite alternate}
+.bg span:nth-child(1){background:#bfdcff;top:-20vmax;left:-15vmax}
+.bg span:nth-child(2){background:#e6e6ff;bottom:-25vmax;right:-20vmax;animation-duration:32s}
+.bg span:nth-child(3){background:#d6f3ea;top:30%;left:40%;animation-duration:38s}
+@keyframes drift{to{transform:translate(6vw,4vh) scale(1.08)}}
+.topbar{position:sticky;top:0;z-index:10;padding:calc(env(safe-area-inset-top) + 12px) 16px 12px;background:rgba(245,245,247,.72);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.05)}
+.topbar-in{max-width:680px;margin:0 auto}
+.topbar-row{display:flex;justify-content:center;gap:8px;font:500 13px var(--font);color:var(--mute);margin-top:8px}
+.progress{height:6px;border-radius:99px;background:rgba(0,0,0,.08);overflow:hidden}
+.progress-fill{height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,var(--blue2),var(--blue));transition:width .6s var(--ease)}
+.app{max-width:680px;margin:0 auto;text-align:center;padding:20px 16px calc(40px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:16px}
+.screen{display:flex;flex-direction:column;gap:16px;animation:screenIn .7s var(--ease) both}
+@keyframes screenIn{from{opacity:0;filter:blur(10px);transform:scale(.97) translateY(12px)}to{opacity:1;transform:none}}
+.card{background:rgba(255,255,255,.72);backdrop-filter:saturate(180%) blur(22px);-webkit-backdrop-filter:saturate(180%) blur(22px);border:1px solid rgba(255,255,255,.85);border-radius:28px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 12px 40px rgba(0,0,0,.07);padding:24px}
+.card p+p{margin-top:12px}
+@media(min-width:640px){.card{padding:34px}}
+.item{padding:18px 18px 14px;border-radius:22px;background:rgba(255,255,255,.9)}
+.badge{display:inline-block;font:600 12px var(--font);letter-spacing:.08em;text-transform:uppercase;color:var(--blue);background:rgba(0,113,227,.09);padding:7px 12px;border-radius:99px}
+h1{font-weight:700;font-size:clamp(28px,6.5vw,42px);line-height:1.1;letter-spacing:-.025em;margin:16px 0 0}
+h2{margin:0}
+.lead{font:500 16px/1.6 var(--font);color:var(--ink2);margin:0}
+.center{text-align:center}
+.center h2{font-size:clamp(24px,5vw,30px);font-weight:700;letter-spacing:-.02em;margin-bottom:10px}
+.qhead{display:flex;justify-content:space-between;gap:10px;font:600 12px var(--font);letter-spacing:.06em;text-transform:uppercase;color:var(--mute);margin-bottom:12px}
+.qtitle{font-weight:600;font-size:clamp(20px,4.6vw,26px);line-height:1.28;letter-spacing:-.01em;margin-bottom:12px}
+.hint{margin:0;font:500 13px/1.5 var(--font);color:var(--mute);text-align:center}
+.opts{display:grid;gap:12px}
+.opt{--rx:0deg;--ry:0deg;--s:1;position:relative;width:100%;display:flex;align-items:center;gap:14px;padding:16px 18px;min-height:56px;border-radius:20px;border:1px solid rgba(0,0,0,.07);background:#fff;color:var(--ink);text-align:left;font:600 16px/1.35 var(--font);cursor:pointer;-webkit-tap-highlight-color:transparent;box-shadow:0 1px 2px rgba(0,0,0,.05),0 6px 16px rgba(0,0,0,.05);transform-style:preserve-3d;transform:perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) scale(var(--s));transition:transform .5s var(--ease),box-shadow .5s var(--ease),border-color .3s,background-color .3s}
+.opt.press{--s:.965;transition-duration:.12s;box-shadow:inset 0 3px 8px rgba(0,0,0,.09),0 1px 2px rgba(0,0,0,.05)}
+.opt.sel{border-color:var(--blue);background:linear-gradient(180deg,#f2f8ff,#e8f2ff);box-shadow:0 0 0 1px var(--blue),0 12px 26px rgba(0,113,227,.16)}
+.dot{flex:none;width:24px;height:24px;border-radius:50%;border:2px solid #c7c7cc;position:relative;transition:background-color .3s,border-color .3s}
+.dot.sq{border-radius:7px}
+.dot::after{content:"";position:absolute;top:3px;left:7px;width:5px;height:10px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg) scale(0);transition:transform .35s var(--ease)}
+.sel .dot{background:var(--blue);border-color:var(--blue)}
+.sel .dot::after{transform:rotate(45deg) scale(1)}
+.why{display:grid;grid-template-rows:0fr;opacity:0;filter:blur(8px);scale:.98 .04;transform-origin:50% 0;visibility:hidden;margin-top:0;transition:grid-template-rows .4s var(--ease),opacity .25s ease,filter .25s ease,scale .4s var(--ease),margin-top .4s var(--ease),visibility 0s linear .4s}
+.why.open{grid-template-rows:1fr;opacity:1;filter:blur(0px);scale:1 1;visibility:visible;margin-top:14px;transition:grid-template-rows .5s var(--ease),opacity .45s ease,filter .5s ease,scale .5s var(--ease),margin-top .5s var(--ease),visibility 0s}
+.why .w{min-height:0;overflow:hidden}
+.why-body{padding:6px}
+.why-s{opacity:0;transform:translateY(8px);transition:opacity .2s ease,transform .25s var(--ease)}
+.why.open .why-s{opacity:1;transform:none;transition:opacity .45s ease,transform .55s var(--ease)}
+.why.open .why-s.b{transition-delay:.14s}
+.why-l{display:block;margin:0 2px 8px;font:600 14px/1.4 var(--font);color:var(--ink2)}
+.why-l small{font-weight:500;color:var(--mute)}
+textarea{width:100%;min-height:96px;padding:14px 16px;border-radius:18px;border:1px solid #d2d2d7;background:rgba(255,255,255,.92);color:var(--ink);font:500 16px/1.5 var(--font);resize:vertical;outline:none;transition:border-color .25s,box-shadow .25s}
+textarea:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(0,113,227,.16)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 24px;border:0;border-radius:999px;font:600 16px var(--font);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .25s var(--ease),box-shadow .3s,background-color .3s}
+.btn:active{transform:scale(.96)}
+.btn-primary{color:#fff;background:linear-gradient(180deg,var(--blue2),var(--blue));box-shadow:0 10px 24px rgba(0,113,227,.3),inset 0 1px 0 rgba(255,255,255,.25)}
+.btn-ghost{color:var(--blue);background:rgba(255,255,255,.9);box-shadow:0 1px 2px rgba(0,0,0,.06),0 0 0 1px rgba(0,0,0,.05)}
+.btn-link{background:none;color:var(--blue);min-height:44px}
+.btn.big{width:100%;min-height:58px;font-size:17px;margin-top:24px}
+.wide{width:100%}
+.nav{display:flex;gap:12px;margin-top:6px}
+.nav .btn{flex:1}
+.stack{display:grid;gap:12px}
+.r{opacity:0;filter:blur(10px);scale:.94;translate:0 14px;transition:opacity .9s ease,filter .9s ease,scale 1s var(--ease),translate 1s var(--ease);transition-delay:calc(var(--d,0)*90ms)}
+.r.in{opacity:1;filter:blur(0px);scale:1;translate:0 0}
+.err{margin:12px 4px 0;font:600 14px var(--font);color:#c9302c}
+.err[hidden]{display:none}
+.shake{animation:shake .45s var(--ease)}
+@keyframes shake{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+.check{width:84px;height:84px;margin:6px auto 12px;display:block;fill:none;stroke:var(--blue);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.check circle{stroke-dasharray:152;stroke-dashoffset:152;animation:draw .9s var(--ease) .2s forwards}
+.check path{stroke-dasharray:40;stroke-dashoffset:40;animation:draw .5s var(--ease) .95s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.rlist{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.ri-top{display:flex;gap:10px;align-items:flex-start;font:600 15px/1.4 var(--font);margin-bottom:8px}
+.rn{flex:none;width:26px;height:26px;border-radius:50%;background:rgba(0,113,227,.1);color:var(--blue);display:grid;place-items:center;font:700 12px var(--font)}
+.ra{margin:0 0 4px 36px;font:500 15px/1.5 var(--font);color:var(--ink2);word-break:break-word;white-space:pre-line}
+.ra.miss{color:#c9302c}
+.rw{display:block;margin-top:6px;color:var(--mute);font-size:14px}
+.link{background:none;border:0;padding:4px 0 0 36px;color:var(--blue);font:600 14px var(--font);cursor:pointer}
+.opt:focus-visible,.btn:focus-visible,.link:focus-visible{outline:3px solid rgba(0,113,227,.45);outline-offset:3px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translate(-50%,160%);z-index:20;background:#1d1d1f;color:#fff;padding:12px 20px;border-radius:99px;font:500 14px var(--font);transition:transform .5s var(--ease);max-width:90vw;text-align:center}
+.toast.on{transform:translate(-50%,0)}
+#count:not(:empty)::before{content:"· "}
+.qhead{flex-direction:column;align-items:center;gap:4px}
+.opt{justify-content:center;padding:16px 52px;text-align:center}
+.opt .dot{position:absolute;left:18px;top:50%;margin-top:-12px}
+textarea{text-align:left}
+.ri-top{justify-content:center;text-align:center}
+.ra{margin:0 0 4px}
+.link{display:block;margin:0 auto;padding:4px 0 0}
+.cheer{margin-top:6px;min-height:18px;font:600 13px/1.4 var(--font);color:var(--blue);text-align:center}
+.avatar{width:104px;height:104px;margin:18px auto 12px;border-radius:50%;display:grid;place-items:center;font-size:52px;line-height:1;background:linear-gradient(145deg,#ffffff,#e4efff);box-shadow:0 14px 34px rgba(0,113,227,.22),inset 0 1px 0 #fff;animation:pop .9s var(--ease) .15s both}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:none;opacity:1}}
+.pname{font-size:clamp(24px,5.5vw,32px);font-weight:700;letter-spacing:-.02em;line-height:1.15;margin:0 0 10px}
+.sub{margin:12px 0 0;font:600 14px var(--font);color:var(--blue)}
+.sub-h{margin:0 0 14px;font:600 12px var(--font);letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.chip{background:rgba(0,113,227,.08);font:500 14px/1.4 var(--font);padding:9px 14px;border-radius:16px;max-width:100%}
+.chip b{display:block;font:600 11px var(--font);letter-spacing:.05em;text-transform:uppercase;color:var(--blue);margin-bottom:2px}
+.bar{margin-bottom:14px}
+.bar-h{display:flex;justify-content:center;gap:8px;font:600 14px var(--font);margin-bottom:6px}
+.bar-h b{color:var(--mute);font-weight:600}
+.track{height:9px;border-radius:99px;background:rgba(0,0,0,.07);overflow:hidden}
+.track i{display:block;height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,var(--blue2),var(--blue));transition:width 1.2s var(--ease) .35s}
+.in .track i{width:var(--w,0%)}
+.tip{font:500 15px/1.6 var(--font);color:var(--ink2);margin:0}
+.tip b{color:var(--ink)}
+.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:30}
+.confetti i{position:absolute;top:-20px;width:9px;height:14px;border-radius:3px}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important}
+  .r{opacity:1;filter:none;scale:1;translate:0 0}
+  .bg span{animation:none}
+}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"><span></span><span></span><span></span></div>
+<header class="topbar"><div class="topbar-in">
+  <div class="progress" id="pb" role="progressbar" aria-label="Avance de la encuesta" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-fill" id="fill"></div></div>
+  <div class="topbar-row"><span id="secName">Encuesta</span><span id="count"></span></div>
+  <div class="cheer" id="cheer" aria-live="polite"></div>
+</div></header>
+<main id="app" class="app"></main>
+<div id="toast" class="toast" role="status"></div>
+<script>
+(() => {
+"use strict";
+
+/* ===== Configuración ===== */
+// Dirección del servidor que guarda las respuestas (Google Apps Script). Termina en /exec
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbzfS6xsktN_1WdjPYQAZS0cbg41NMOTm5KbEPuyF0U2oy2WkZsae2wGJp_mPju29_esxg/exec";
+const MODO_PRUEBA = true; // poné false antes de publicar para quitar el atajo de prueba
+const TITLE = "Adolescentes e inteligencia artificial: ¿cómo la usamos?";
+const SECS = ["Sobre vos", "Cómo usás la IA", "Aprender y verificar", "Información y contenidos", "Escuela y opiniones"];
+
+/* ===== Preguntas =====
+   s: sección · m: se pueden elegir varias opciones · x: opciones que no combinan con las demás
+   o: opciones (sin «o» = respuesta abierta)
+   w: campo opcional «¿Por qué?» o similar (on = opciones que lo muestran) */
+const Q = [
+ {s:0, t:"¿Qué edad tenés?", o:["13 años o menos","14 años","15 años","16 años","17 años","18 años o más","Prefiero no responder"]},
+ {s:0, t:"¿Utilizaste alguna herramienta de inteligencia artificial en los últimos tres meses?", o:["Sí","No","No lo recuerdo"]},
+ {s:1, m:1, t:"¿Qué herramientas de inteligencia artificial conocés o utilizaste?", o:["Gemini","ChatGPT","Grok","Meta IA","Herramientas de generación de imágenes","Otras","No conozco ninguna"], x:[6], w:{on:[5], l:"¿Cuáles?"}},
+ {s:1, t:"¿Con qué frecuencia utilizás herramientas de inteligencia artificial?", o:["Todos los días","Varias veces por semana","Una vez por semana","Algunas veces al mes","Casi nunca","Nunca"]},
+ {s:1, m:1, t:"¿Para qué utilizás la IA?", o:["Para estudiar o hacer tareas escolares","Para comprender temas que no entiendo","Para buscar información","Para resumir textos","Para escribir o corregir textos","Para crear imágenes, videos o música","Para entretenerme","Para resolver dudas personales","Para conversar o buscar compañía","Para otras actividades"], w:{on:[9], l:"¿Cuáles?"}},
+ {s:1, m:1, t:"Cuando utilizás la IA para una tarea escolar, ¿qué cosas solés hacer?", o:["Le pido que me explique un tema","Le pido ejemplos para comprenderlo","Le pido que me ayude a organizar mis ideas","Le pido que redacte una respuesta completa","Copio o adapto partes de la respuesta","La utilizo para revisar un trabajo que hice","No la utilizo para tareas escolares","Otra opción"], x:[6], w:{on:[7], l:"¿Cuál?"}},
+ {s:1, m:1, t:"¿Cómo aprendiste a utilizar estas herramientas?", o:["Por mi cuenta, experimentando","A través de amigos o compañeros","Por recomendaciones de familiares","Por indicaciones de docentes","Mediante videos o publicaciones en redes sociales","Mediante cursos o tutoriales","De otra manera"], w:{on:[6], l:"¿Cómo?"}},
+ {s:2, t:"¿Sentís que la inteligencia artificial te ayuda a comprender mejor los temas que estudiás?", o:["Sí, mucho","Sí, en algunas ocasiones","No noto una diferencia","En algunas ocasiones dificulta mi aprendizaje","No sé"], w:{on:[3], l:"¿Por qué?"}},
+ {s:2, t:"¿Alguna vez recibiste una respuesta de una IA que después descubriste que era incorrecta?", o:["Sí, varias veces","Sí, una vez","No me pasó","No estoy seguro/a"]},
+ {s:2, t:"Cuando una IA te da información importante para una tarea, ¿qué hacés habitualmente?", o:["La acepto sin comprobarla","La comparo con páginas web o documentos","Consulto libros o materiales escolares","Le pregunto a un docente o a otra persona","Busco otras fuentes, aunque no siempre compruebo la información","Depende del tema","No utilizo IA para estudiar"], w:{on:[5], l:"¿De qué depende?"}},
+ {s:2, t:"¿Creés que utilizar inteligencia artificial puede hacer que una persona deje de desarrollar algunas habilidades por sí misma?", o:["Sí","No","Depende de cómo la utilice","No lo sé"], w:{on:[2], l:"¿De qué depende?"}},
+ {s:2, m:1, t:"¿Qué habilidades considerás que es importante mantener o desarrollar aunque utilicemos IA?", o:["Pensamiento crítico","Escritura y comprensión lectora","Creatividad","Resolución autónoma de problemas","Capacidad de investigar y verificar información","Comunicación con otras personas","Todas las anteriores","Otras"], x:[6], w:{on:[7], l:"¿Cuáles?"}},
+ {s:3, t:"¿Alguna vez utilizaste una IA para informarte sobre una noticia o un tema de actualidad?", o:["Frecuentemente","Algunas veces","Una sola vez","Nunca"]},
+ {s:3, t:"¿Cómo te sentís frente a un contenido generado artificialmente que parece real, como una imagen, un video o un audio?", o:["Creo que podría reconocerlo fácilmente","Podría reconocer algunos, pero no todos","Me resulta difícil identificarlo","No sé cómo reconocerlo"]},
+ {s:3, t:"¿Alguna vez utilizaste una IA para conversar sobre una preocupación personal o una situación que te afectaba?", o:["Sí","No","Prefiero no responder"]},
+ {s:4, t:"¿En tu escuela se habla sobre cómo utilizar la inteligencia artificial?", o:["Sí, frecuentemente","Sí, algunas veces","Muy pocas veces","Nunca","No estoy seguro/a"]},
+ {s:4, t:"¿Te gustaría que en la escuela se enseñara más sobre inteligencia artificial?", o:["Sí","No","No lo sé"]},
+ {s:4, m:1, t:"¿Qué te gustaría aprender sobre estas herramientas?", o:["Cómo funcionan","Cómo utilizarlas para estudiar","Cómo verificar sus respuestas","Cómo reconocer imágenes, videos y audios falsos","Qué riesgos pueden tener","Cómo proteger mis datos personales","Cómo utilizarlas para crear contenidos","Cómo influyen en la sociedad y la comunicación","Otro tema"], w:{on:[8], l:"¿Cuál?"}},
+ {s:4, t:"¿Cuál es tu principal preocupación sobre el uso de la inteligencia artificial?"},
+ {s:4, t:"¿Qué es lo que más valorás de la inteligencia artificial o qué oportunidades encontrás en ella?"},
+ {s:4, t:"Si pudieras hacerle una pregunta a un especialista en inteligencia artificial, ¿qué le preguntarías?"}
+];
+Q.forEach((q, i) => { q.id = i + 1; });
+
+/* ===== Estado y utilidades ===== */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const state = { screen: "cover", cur: 1, a: {} };
+const app = $("#app");
+const curQ = () => Q.find(q => q.id === state.cur);
+const selected = q => { // índices elegidos en la pregunta
+  const x = state.a[q.id] || {};
+  return q.m ? (x.v || []) : (x.v === undefined ? [] : [x.v]);
+};
+const answered = q => {
+  const x = state.a[q.id]; if (!x) return false;
+  return q.o ? selected(q).length > 0 : !!(x.v && x.v.trim());
+};
+const showWhy = q => !!q.w && selected(q).some(i => q.w.on.includes(i));
+const entry = q => { // respuesta y explicación que corresponden
+  if (!answered(q)) return null;
+  const x = state.a[q.id] || {};
+  const ans = q.o ? selected(q).map(i => q.o[i]).join("; ") : x.v.trim();
+  const w = showWhy(q) && x.w && x.w.trim() ? x.w.trim() : null;
+  return { ans, w };
+};
+
+/* ===== Mensaje de WhatsApp (un solo mensaje, nunca se recorta) ===== */
+/* ===== Datos que se guardan (sin nombre ni contacto) ===== */
+function buildPayload() {
+  const respuestas = {}, explicaciones = {};
+  Q.forEach(q => {
+    const e = entry(q); if (!e) return;
+    respuestas[q.id] = q.o ? selected(q).map(i => q.o[i]) : [e.ans];
+    if (e.w) explicaciones[q.id] = e.w;
+  });
+  const p = profile();
+  return { v: 1, fecha: new Date().toISOString(), prueba: !!state.prueba, perfil: p.p.n, segundo: p.second ? p.second.n : "", puntajes: p.dims, respuestas, explicaciones };
+}
+
+/* ===== Perfil según las respuestas ===== */
+const PROFILES = {
+  curiosidad: {n:"Explorador/a curioso/a", e:"🧭", d:"Te gusta probar y descubrir qué puede hacer la IA. La usás seguido y para cosas bien distintas.", tip:"Probá pedirle a la IA que te explique un tema como si fueras tu propio profe, y después contalo con tus palabras."},
+  independencia: {n:"Mente independiente", e:"🧠", d:"Preferís entender antes que copiar. Usás la IA para aprender sin dejar de pensar por tu cuenta.", tip:"Intentá resolver algo primero por tu cuenta y usá la IA después para revisar tu resultado."},
+  verificacion: {n:"Verificador/a atento/a", e:"🔍", d:"Desconfiás con criterio: comprobás lo que te dice la IA antes de darlo por cierto.", tip:"Cuando algo sea importante, compará al menos dos fuentes distintas antes de usarlo."},
+  creatividad: {n:"Creador/a imaginativo/a", e:"🎨", d:"Usás la IA como punto de partida para escribir, crear imágenes o imaginar cosas nuevas.", tip:"Guardá tus versiones: así podés ver cómo tu idea fue cambiando con la ayuda de la IA."},
+  conciencia: {n:"Navegante consciente", e:"🛡️", d:"Conocés los riesgos y te importa cuidar tus datos y distinguir lo real de lo generado.", tip:"Antes de compartir una imagen, un video o un audio, buscá de dónde viene."},
+  observador: {n:"Observador/a prudente", e:"🌿", d:"Todavía no usás la IA, o casi nada. Tu mirada desde afuera es valiosa para entender cómo la ven otros.", tip:"Si alguna vez la probás, empezá con una pregunta simple y fijate qué tan útil te resulta."}
+};
+const DIM = {curiosidad:"Curiosidad", independencia:"Pensamiento propio", verificacion:"Verificación", creatividad:"Creatividad", conciencia:"Conciencia"};
+const pick = n => selected(Q[n - 1]);                 // elecciones de la pregunta n
+const clamp = v => Math.max(0, Math.min(100, Math.round(v)));
+const labels = (n, max) => pick(n).slice(0, max).map(i => Q[n - 1].o[i]).join("; ");
+
+// Cada puntaje sale de respuestas concretas (ver comentarios en cada línea).
+function profile() {
+  const freq = pick(4)[0] ?? 5;                        // P4: 0 todos los días … 5 nunca
+  const learn = pick(6), copy = learn.filter(i => i === 3 || i === 4).length; // P6: copiar o redactar
+  const dims = {
+    curiosidad: clamp([100, 80, 60, 35, 20, 0][freq] * 0.6 + Math.min(pick(5).length, 5) * 8), // P4 + P5 variedad
+    independencia: clamp(50 + learn.filter(i => [0, 1, 2, 5].includes(i)).length * 8 - copy * 25 + ([-15, 15, 0, 0][pick(11)[0]] ?? 0)), // P6 + P11
+    verificacion: clamp(([10, 80, 85, 85, 55, 50, 40][pick(10)[0]] ?? 50) + ([10, 5, 0, 0][pick(9)[0]] ?? 0)), // P10 + P9
+    creatividad: clamp(15 + (pick(5).includes(5) ? 45 : 0) + (pick(5).includes(4) ? 20 : 0) + (pick(5).includes(6) ? 5 : 0) + (learn.includes(2) ? 15 : 0)), // P5 + P6
+    conciencia: clamp(20 + pick(12).filter(i => i !== 6).length * 10 + (pick(12).includes(6) ? 30 : 0) + pick(18).length * 6 + (pick(8)[0] === 3 ? 10 : 0)) // P12, P18, P8
+  };
+  const ranked = Object.keys(dims).sort((a, b) => dims[b] - dims[a]);
+  const never = freq === 5;
+  return { p: PROFILES[never ? "observador" : ranked[0]], second: never ? null : PROFILES[ranked[1]], dims, never };
+}
+
+function profileView() {
+  const { p, second, dims } = profile();
+  const chips = [["Frecuencia", labels(4, 1)], ["Para qué la usás", labels(5, 2)], ["Cuando te da información", labels(10, 1)], ["Cómo aprendiste", labels(7, 1)]];
+  const bars = Object.keys(dims).map(k => `<div class="bar"><div class="bar-h"><span>${DIM[k]}</span><b>${dims[k]}</b></div><div class="track"><i style="--w:${dims[k]}%"></i></div></div>`).join("");
+  return `<section class="screen">
+    <div class="card center r" style="--d:0">
+      <span class="badge">Tu perfil de uso de la IA</span>
+      <div class="avatar" aria-hidden="true">${p.e}</div>
+      <h2 class="pname">${p.n}</h2>
+      <p class="lead">${p.d}</p>
+      ${second ? `<p class="sub">Con un toque de ${second.n}</p>` : ""}
+    </div>
+    <div class="card r" style="--d:1">
+      <h3 class="sub-h">Según lo que respondiste</h3>
+      <div class="chips">${chips.filter(c => c[1]).map(([k, v]) => `<span class="chip"><b>${k}</b>${esc(v)}</span>`).join("")}</div>
+    </div>
+    <div class="card r" style="--d:2"><h3 class="sub-h">Tu mapa</h3>${bars}</div>
+    <div class="card center r" style="--d:3">
+      <p class="tip"><b>Un consejo para vos:</b> ${p.tip}</p>
+      <div class="stack" style="margin-top:20px">
+        <button class="btn btn-ghost wide" data-act="share">Compartir mi perfil</button>
+        <button class="btn btn-primary wide" data-act="continue">Continuar al envío</button>
+      </div>
+    </div></section>`;
+}
+
+/* ===== Plantillas ===== */
+const cover = () => `<section class="screen">
+  <div class="r" style="--d:0"><span class="badge">Investigación periodística · 21 preguntas</span><h1>${esc(TITLE)}</h1></div>
+  <div class="card r" style="--d:1">
+    <p class="lead">Esta encuesta forma parte de una investigación periodística sobre el uso de la inteligencia artificial entre adolescentes y sus implicancias en las formas de aprender, informarse y comunicarse.</p>
+    <p class="lead">Queremos conocer tus experiencias y opiniones. No hay respuestas correctas o incorrectas: nos interesa saber cómo utilizás estas herramientas y qué pensás sobre ellas.</p>
+    <p class="lead">La participación es voluntaria. No necesitamos tu nombre ni tu dirección de correo electrónico. Las respuestas se analizarán de manera conjunta para la investigación.</p>
+    <p class="lead">Responder te llevará aproximadamente entre 5 y 8 minutos.</p>
+    <button class="btn btn-primary big" data-act="start">Comenzar encuesta</button>
+    ${MODO_PRUEBA ? '<button class="btn btn-ghost wide" data-act="skip" style="margin-top:12px">Saltar al final (prueba)</button>' : ""}
+  </div></section>`;
+
+const why = q => {
+  const on = showWhy(q), x = state.a[q.id] || {};
+  return `<div class="why${on ? " open" : ""}"${on ? "" : " inert"}><div class="w"><div class="why-body">
+    <div class="why-s"><label class="why-l" for="w${q.id}">${esc(q.w.l)} <small>(opcional)</small></label></div>
+    <div class="why-s b"><textarea class="why-f" id="w${q.id}" rows="3" maxlength="500" placeholder="Escribí lo que quieras">${esc(x.w || "")}</textarea></div>
+  </div></div></div>`;
+};
+
+function question() {
+  const q = curQ(), i = Q.indexOf(q), x = state.a[q.id] || {}, sel = selected(q);
+  const body = q.o
+    ? `<div class="opts" role="${q.m ? "group" : "radiogroup"}" aria-labelledby="qt">${q.o.map((t, k) => `
+        <div class="r" style="--d:${k + 1}"><button type="button" class="opt${sel.includes(k) ? " sel" : ""}" role="${q.m ? "checkbox" : "radio"}" aria-checked="${sel.includes(k)}" data-i="${k}"><span class="dot${q.m ? " sq" : ""}"></span><span>${esc(t)}</span></button></div>`).join("")}</div>${q.w ? why(q) : ""}`
+    : `<div class="r" style="--d:2"><textarea id="open" rows="5" maxlength="800" aria-label="${esc(q.t)}" placeholder="Escribí tu respuesta">${esc(x.v || "")}</textarea></div>`;
+  return `<section class="screen"><div class="card">
+    <div class="qhead r" style="--d:0"><span>${SECS[q.s]}</span><span>Pregunta ${i + 1} de ${Q.length}</span></div>
+    <h2 id="qt" class="qtitle r" style="--d:0">${esc(q.t)}</h2>
+    ${q.m ? '<p class="hint" style="margin:0 0 16px">Podés elegir más de una opción.</p>' : ""}
+    ${body}
+    <p class="err" id="err" hidden></p>
+    <div class="nav r" style="--d:4">
+      <button class="btn btn-ghost" data-act="prev">Anterior</button>
+      <button class="btn btn-primary" data-act="next">${i === Q.length - 1 ? "Ver mi perfil" : "Siguiente"}</button>
+    </div></div></section>`;
+}
+
+// Pantalla final: envío directo arriba; la revisión queda plegada detrás de un botón.
+function review() {
+  const missing = Q.filter(q => !answered(q)).length;
+  const items = Q.map(q => {
+    const e = entry(q);
+    return `<li class="card item"><div class="ri-top"><span class="rn">${q.id}</span><span>${esc(q.t)}</span></div>
+      <p class="ra${e ? "" : " miss"}">${e ? esc(e.ans) : "Sin responder"}${e && e.w ? `<span class="rw">${esc(e.w)}</span>` : ""}</p>
+      <button class="link" data-act="edit" data-id="${q.id}">Cambiar</button></li>`;
+  }).join("");
+  return `<section class="screen">
+    <div class="card center r" style="--d:0">
+      <span class="badge">Último paso</span>
+      <h2 class="pname" style="margin-top:14px">¿Listo para enviar?</h2>
+      <p class="lead">Tus respuestas son anónimas: no pedimos nombre, correo ni datos de contacto.</p>
+    </div>
+    <div class="card r" style="--d:2">
+      <p class="lead" style="font-size:15px;margin-bottom:18px">${missing ? `Te falta responder ${missing} pregunta${missing > 1 ? "s" : ""}.` : "Respondiste todas las preguntas."}</p>
+      <div class="stack">
+        <button class="btn btn-primary wide" data-act="send"${missing ? " disabled" : ""}>Enviar mis respuestas</button>
+        <button class="btn btn-ghost wide" data-act="toggle" aria-expanded="false" aria-controls="rv">¿Quieres revisar tus respuestas?</button>
+        <div class="why" id="rv" inert><div class="w"><div class="why-body"><ol class="rlist">${items}</ol></div></div></div>
+        <p class="err" id="err" hidden></p>
+        <button class="btn btn-link wide" data-act="back">Volver a la última pregunta</button>
+      </div>
+    </div></section>`;
+}
+
+function gracias() {
+  return `<section class="screen">
+    <div class="card center r" style="--d:0">
+      <svg class="check" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24"/><path d="M15 27l7 7 15-16"/></svg>
+      <h2>¡Gracias por participar!</h2>
+      <p class="lead">Tus respuestas nos ayudan a entender mejor cómo usamos la tecnología. Ya quedaron guardadas.</p>
+    </div>
+    <div class="card center r" style="--d:2"><p class="lead" style="font-size:15px">Podés cerrar esta página cuando quieras. Gracias por tu tiempo.</p></div>
+  </section>`;
+}
+
+/* ===== Vibración, confeti y mensajes de ánimo ===== */
+const buzz = pattern => { if (navigator.vibrate) navigator.vibrate(pattern); }; // solo Android/Chrome
+function confetti() {
+  if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const colors = ["#0071e3", "#2997ff", "#34c759", "#ff9f0a", "#ff375f", "#bf5af2"];
+  const box = document.createElement("div");
+  box.className = "confetti";
+  document.body.append(box);
+  for (let k = 0; k < 70; k++) {
+    const p = document.createElement("i");
+    p.style.left = Math.random() * 100 + "%";
+    p.style.background = colors[k % colors.length];
+    box.append(p);
+    p.animate([
+      { transform: "translate3d(0,0,0) rotate(0deg)", opacity: 1 },
+      { transform: `translate3d(${(Math.random() - 0.5) * 60}vw,110vh,0) rotate(${Math.random() * 720 - 360}deg)`, opacity: 0.8 }
+    ], { duration: 1800 + Math.random() * 1400, delay: Math.random() * 350, easing: "cubic-bezier(.2,.6,.3,1)", fill: "forwards" });
+  }
+  setTimeout(() => box.remove(), 3800);
+}
+function cheerText(n) {
+  if (state.screen === "cover") return "";
+  if (state.screen !== "q") return "¡Terminaste! 🎉";
+  if (n === 0) return "¡Empezamos! Son unas pocas preguntas";
+  const left = Q.length - n, pct = n / Q.length * 100;
+  const msg = pct < 35 ? "¡Buen comienzo!" : pct < 60 ? "¡Vamos por la mitad!" : pct < 90 ? "¡Ya casi! Te faltan pocas preguntas" : "¡Última recta!";
+  return left ? `${msg} · Te quedan unos ${Math.ceil(left * 18 / 60)} min` : msg;
+}
+
+/* ===== Render y navegación ===== */
+function render() {
+  app.innerHTML = { cover, q: question, profile: profileView, review, gracias }[state.screen]();
+  top();
+  window.scrollTo({ top: 0 });
+  observe();
+}
+const go = s => { state.screen = s; render(); };
+
+function top() {
+  const n = Q.filter(answered).length, q = curQ();
+  const pct = state.screen === "cover" ? 0 : Math.round(n / Q.length * 100);
+  $("#fill").style.width = pct + "%";
+  $("#pb").setAttribute("aria-valuenow", pct);
+  const names = { q: SECS[q.s], profile: "Tu perfil", review: "Envío", gracias: "Listo" };
+  $("#secName").textContent = names[state.screen] || "Encuesta";
+  $("#count").textContent = state.screen === "q" ? `${Q.indexOf(q) + 1} / ${Q.length}` : "";
+  const ch = $("#cheer"), t = cheerText(n);
+  if (ch.textContent !== t) {
+    ch.textContent = t;
+    ch.animate([{ opacity: 0, transform: "translateY(-4px)" }, { opacity: 1, transform: "none" }], { duration: 450, easing: "ease-out" });
+  }
+}
+
+function showErr(msg) {
+  const e = $("#err"); if (!e) return;
+  e.textContent = msg; e.hidden = false;
+  e.classList.remove("shake"); void e.offsetWidth; e.classList.add("shake");
+  (document.querySelector(".qtitle") || e).scrollIntoView({ block: "center", behavior: "smooth" });
+}
+
+function choose(k) {
+  buzz(8);
+  const q = curQ(), x = (state.a[q.id] ??= {});
+  if (q.m) {
+    const ex = q.x || [];
+    let set = new Set(x.v || []);
+    if (set.has(k)) set.delete(k);
+    else if (ex.includes(k)) set = new Set([k]);          // «No conozco ninguna», «Todas las anteriores»…
+    else { ex.forEach(j => set.delete(j)); set.add(k); }
+    x.v = [...set].sort((a, b) => a - b);
+  } else x.v = k;
+  const sel = selected(q);
+  app.querySelectorAll(".opt").forEach((b, j) => { const on = sel.includes(j); b.classList.toggle("sel", on); b.setAttribute("aria-checked", on); });
+  const err = $("#err"); if (err) err.hidden = true;
+  if (q.w) {
+    const on = showWhy(q), el = app.querySelector(".why");
+    el.classList.toggle("open", on);
+    el.toggleAttribute("inert", !on);
+    if (on) setTimeout(() => el.scrollIntoView({ block: "nearest", behavior: "smooth" }), 420);
+  }
+  top();
+}
+
+function toggleReview(btn) {
+  const d = $("#rv"), on = !d.classList.contains("open");
+  d.classList.toggle("open", on);
+  d.toggleAttribute("inert", !on);
+  btn.setAttribute("aria-expanded", on);
+  if (on) setTimeout(() => d.scrollIntoView({ block: "nearest", behavior: "smooth" }), 520);
+}
+
+function toast(msg, ms = 3200) {
+  const el = $("#toast"); el.textContent = msg; el.classList.add("on");
+  clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove("on"), ms);
+}
+
+/* ===== Envío ===== */
+function copyText(t) {
+  const fallback = () => { // respaldo para navegadores sin API de portapapeles
+    const ta = document.createElement("textarea"); ta.value = t; document.body.append(ta);
+    ta.select(); const ok = document.execCommand("copy"); ta.remove(); return ok;
+  };
+  return navigator.clipboard ? navigator.clipboard.writeText(t).then(() => true, fallback) : Promise.resolve(fallback());
+}
+
+let enviando = false;
+async function submitAll() {
+  if (enviando || state.enviado) return;
+  if (!ENDPOINT || ENDPOINT.startsWith("PEGAR")) return toast("Falta configurar la dirección del servidor (ver LEEME).", 6000);
+  enviando = true;
+  buzz([30, 50, 30]);
+  try {
+    // "no-cors": el servidor recibe los datos aunque el navegador no pueda leer su respuesta
+    await fetch(ENDPOINT, { method: "POST", mode: "no-cors", keepalive: true, headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(buildPayload()) });
+    state.enviado = true;
+    go("gracias");
+    confetti();
+  } catch (_) {
+    enviando = false;
+    toast("No se pudo enviar. Revisá tu conexión y probá de nuevo.", 6000);
+  }
+}
+
+function shareProfile() {
+  const { p } = profile();
+  const text = `Mi perfil de uso de la IA: ${p.e} ${p.n}. ${p.d}`;
+  if (navigator.share) return navigator.share({ title: "Mi perfil de uso de la IA", text }).catch(() => {});
+  copyText(text).then(ok => toast(ok ? "Perfil copiado. Pegalo donde quieras." : "No se pudo copiar.", 4000));
+}
+
+/* ===== Atajo de prueba (quitar cuando se publique) ===== */
+function skipToEnd() {
+  state.prueba = true;
+  Q.forEach(q => {
+    if (answered(q)) return;
+    const x = (state.a[q.id] ??= {});
+    if (!q.o) x.v = "Respuesta de prueba";
+    else if (q.m) x.v = [Math.floor(Math.random() * q.o.length)];
+    else x.v = Math.floor(Math.random() * q.o.length);
+  });
+  state.cur = Q[Q.length - 1].id;
+  go("profile");
+}
+
+/* ===== Acciones ===== */
+function act(name, el) {
+  const i = Q.indexOf(curQ());
+  switch (name) {
+    case "start": state.cur = Q[0].id; return go("q");
+    case "prev":
+      if (i === 0) return go("cover");
+      state.cur = Q[i - 1].id; return render();
+    case "next": {
+      const q = Q[i];
+      if (!answered(q)) return showErr(q.o ? (q.m ? "Falta responder: elegí al menos una opción para continuar." : "Falta responder: elegí una opción para continuar.") : "Falta responder: escribí una respuesta para continuar.");
+      if (i === Q.length - 1) return go("profile");
+      state.cur = Q[i + 1].id; return render();
+    }
+    case "edit": state.cur = +el.dataset.id; return go("q");
+    case "back": state.cur = Q[Q.length - 1].id; return go("q");
+    case "toggle": return toggleReview(el);
+    case "send": {
+      const miss = Q.find(q => !answered(q));
+      if (miss) { state.cur = miss.id; go("q"); return showErr("Te falta responder esta pregunta."); }
+      return submitAll();
+    }
+    case "continue": return go("review");
+    case "share": return shareProfile();
+    case "skip": return skipToEnd();
+  }
+}
+
+/* ===== Eventos ===== */
+app.addEventListener("click", e => {
+  const opt = e.target.closest(".opt");
+  if (opt) return choose(+opt.dataset.i);
+  const b = e.target.closest("[data-act]");
+  if (b) act(b.dataset.act, b);
+});
+
+app.addEventListener("input", e => {
+  const t = e.target; if (t.tagName !== "TEXTAREA") return;
+  const x = (state.a[curQ().id] ??= {});
+  if (t.id === "open") x.v = t.value; else x.w = t.value;
+  top();
+});
+
+// Al escribir, la caja sube al centro de la pantalla para no quedar tapada por el teclado.
+app.addEventListener("focusin", e => {
+  if (e.target.tagName === "TEXTAREA") setTimeout(() => e.target.scrollIntoView({ block: "center", behavior: "smooth" }), 350);
+});
+
+// Efecto 3D al tocar: se hunde al presionar y vuelve al soltar; inclinación sutil con el mouse.
+const tilt = (b, rx = 0, ry = 0) => { b.style.setProperty("--rx", rx + "deg"); b.style.setProperty("--ry", ry + "deg"); };
+app.addEventListener("pointerdown", e => e.target.closest(".opt")?.classList.add("press"));
+const release = e => {
+  const b = e.target.closest?.(".opt");
+  if (!b || (e.relatedTarget && b.contains(e.relatedTarget))) return;
+  b.classList.remove("press"); tilt(b);
+};
+app.addEventListener("pointerup", release);
+app.addEventListener("pointercancel", release);
+app.addEventListener("pointerout", release);
+app.addEventListener("pointermove", e => {
+  if (e.pointerType !== "mouse") return;
+  const b = e.target.closest(".opt"); if (!b) return;
+  const r = b.getBoundingClientRect();
+  const x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
+  tilt(b, (-y * 7).toFixed(2), (x * 9).toFixed(2));
+});
+
+// Aparición al hacer scroll (blur + opacidad + escala), escalonada.
+const io = "IntersectionObserver" in window ? new IntersectionObserver(entries => entries.forEach(en => {
+  if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+}), { threshold: 0.1, rootMargin: "0px 0px -4% 0px" }) : null;
+function observe() {
+  document.querySelectorAll(".r:not(.in)").forEach(el => io ? io.observe(el) : el.classList.add("in"));
+}
+
+render();
+})();
+</script>
+</body>
+</html>
